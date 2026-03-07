@@ -1,0 +1,14 @@
+# GPT 从零实现 - 依赖包
+# 安装命令: pip install -r requirements.txt
+
+# 深度学习框架
+torch>=2.0.0
+
+# 数据处理
+numpy>=1.24.0
+
+# 进度条
+tqdm>=4.65.0
+
+# 可视化（可选，用于查看注意力矩阵）
+matplotlib>=3.7.0
