@@ -229,11 +229,11 @@ class GPT(nn.Module):
         # 计算损失（如果提供了 targets）
         loss = None
         if targets is not None:
-            # 交叉熵损失
+            # 交叉熵损失（ignore_index=-100 用于 SFT 训练中的 prompt masking）
             loss = F.cross_entropy(
                 logits.view(-1, logits.size(-1)),
                 targets.view(-1),
-                ignore_index=-1
+                ignore_index=-100
             )
 
         return logits, loss
