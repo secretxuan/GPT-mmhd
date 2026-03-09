@@ -31,24 +31,26 @@ GPT 的训练目标是"预测下一个字符"：
 import torch
 from torch.utils.data import Dataset, DataLoader
 import os
-import sys
 import pickle
-
-# 添加路径
-sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-sys.path.append(os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), '02_tokenizer'))
-import char_tokenizer as ct
 
 
 class SimpleTokenizer:
     """简单的字符级分词器"""
 
     def __init__(self, text=None):
+        self.chars = []
+        self.char_to_id = {}
+        self.id_to_char = {}
+        self.vocab_size = 0
         if text is not None:
-            self.chars = sorted(list(set(text)))
-            self.char_to_id = {ch: i for i, ch in enumerate(self.chars)}
-            self.id_to_char = {i: ch for i, ch in enumerate(self.chars)}
-            self.vocab_size = len(self.chars)
+            self.train(text)
+
+    def train(self, text):
+        """从文本构建词汇表"""
+        self.chars = sorted(list(set(text)))
+        self.char_to_id = {ch: i for i, ch in enumerate(self.chars)}
+        self.id_to_char = {i: ch for i, ch in enumerate(self.chars)}
+        self.vocab_size = len(self.chars)
 
     def encode(self, text):
         return [self.char_to_id[ch] for ch in text]
@@ -121,7 +123,7 @@ def prepare_data(text_path, block_size=256, train_ratio=0.9):
     print(f"文本长度: {len(text)} 字符")
 
     # 创建分词器
-    tokenizer = CharTokenizer()
+    tokenizer = SimpleTokenizer()
     tokenizer.train(text)
 
     # 编码

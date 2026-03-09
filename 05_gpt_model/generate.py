@@ -20,8 +20,10 @@ import torch
 import sys
 import os
 
-# 添加父目录到路径
-sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+# 添加项目根目录和当前模块目录到路径
+PROJECT_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+sys.path.insert(0, PROJECT_ROOT)
+sys.path.insert(0, os.path.join(PROJECT_ROOT, '05_gpt_model'))
 
 from model import GPT, GPTConfig
 
@@ -76,7 +78,7 @@ def generate_text(model, tokenizer, prompt, max_tokens=100, temperature=0.8, top
         prompt: 起始文本
         max_tokens: 生成的最大 token 数
         temperature: 采样温度
-        top_k: top-k 采样
+        top_k: top-k 采样（None 表示不使用）
 
     Returns:
         生成的文本（包含 prompt）

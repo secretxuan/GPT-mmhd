@@ -21,13 +21,16 @@ import argparse
 
 import torch
 
-# 添加路径
-sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+# 添加项目根目录到路径，以便导入其他模块
+PROJECT_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+if PROJECT_ROOT not in sys.path:
+    sys.path.insert(0, PROJECT_ROOT)
+
+# 添加各模块目录
+sys.path.insert(0, os.path.join(PROJECT_ROOT, '06_pretrain'))
+sys.path.insert(0, os.path.join(PROJECT_ROOT, '05_gpt_model'))
 
 from config import GPTConfig, TrainConfig, get_config, CONFIGS
-
-# 导入模型
-sys.path.append(os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), '05_gpt_model'))
 from model import GPT as GPTModel
 
 
